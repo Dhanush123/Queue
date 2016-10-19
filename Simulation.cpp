@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
 using namespace std;
 
 #include <cmath>
@@ -19,7 +20,7 @@ struct Customer{
 };
 
 int getRandomNumberOfArrivals(double);
-char genID(int&, char&);
+char genID(char&);
 int randTimeAdd(int, int);
 
 int main(){
@@ -29,9 +30,8 @@ int main(){
   cout << "Programmer: Dhanush Patel\n";
   cout << "Programmer's ID: 1553428\n";
   cout << "File: " << __FILE__ << "\n\n";
-  float numServers = 0, waitMaxLength = 0, minServTime = 0, maxServTime = 0, clockStopTime = 0;
+  int numServers = 0, waitMaxLength = 0, minServTime = 0, maxServTime = 0, clockStopTime = 0;
   double avgArrivalRate = 0.0;
-  int alphaTrack = 0;
   char curAlpha = 'A';
 
   ifstream fin;
@@ -89,7 +89,7 @@ int main(){
       for(int i = 0; i < avgArrivalRate; i++){
         if(custQ.size() < waitMaxLength){
           Customer c;
-          c.ID = genID(alphaTrack, curAlpha);
+          c.ID = genID(curAlpha);
           c.arrivalT = time;
           custQ.push(c);
         }
@@ -127,10 +127,10 @@ int main(){
           qList += tempQ.front().ID;
           tempQ.pop();
         }
-        cout << " " << i << "         " << show << "       " << qList << endl;
+        cout << setw(2)  << i << setw(10) << show << setw(10) << qList << endl;
       }
       else {
-        cout << " " << i << "         " << show << endl;
+        cout << setw(2) << i << setw(10) << show << endl;
       }
     }
 
@@ -155,7 +155,7 @@ int randTimeAdd(const int a, const int b){
   return a + (rand() % b);
 }
 
-char genID(int& aTrack, char& curAlpha) {
+char genID(char& curAlpha) {
  if(curAlpha == 'Z'){
    curAlpha = 'A';
    return 'Z';
