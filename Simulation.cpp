@@ -85,8 +85,8 @@ int main(){
     }
     // handle new arrivals -- can be turned away if wait queue is at maximum length!
     if(time < clockStopTime){
-      avgArrivalRate = getRandomNumberOfArrivals(avgArrivalRate);
-      for(int i = 0; i < avgArrivalRate; i++){
+      int numArrive = getRandomNumberOfArrivals(avgArrivalRate);
+      for(int i = 0; i < numArrive; i++){
         if(custQ.size() < waitMaxLength){
           Customer c;
           c.ID = genID(curAlpha);
@@ -112,26 +112,20 @@ int main(){
     cout << "server now serving wait queue" << endl;
     cout << "------ ----------- ----------" << endl;
     for(int i = 0; i < numServers; i++){
-      string show;
-        if(!serversStatus[i]){
-          show = " ";
-        }
-        else{
-          show = nowServing[i].ID;
-        }
-      show = serversStatus[i] ? nowServing[i].ID : ' ';
+      string show = " ";
+      if(serversStatus[i]){
+        show = nowServing[i].ID;
+      } 
+      cout << setw(2) << i << setw(10) << show;
       if(i == 0){
         Queue<Customer> tempQ = custQ;
-        string qList;
-        for(int j = 0; j < tempQ.size(); j++) {
-          qList += tempQ.front().ID;
+        cout << setw(10);
+        while(!tempQ.empty()) {
+          cout << tempQ.front().ID;
           tempQ.pop();
         }
-        cout << setw(2)  << i << setw(10) << show << setw(10) << qList << endl;
       }
-      else {
-        cout << setw(2) << i << setw(10) << show << endl;
-      }
+      cout << endl;   
     }
 
     int numIdle = 0;
@@ -143,9 +137,7 @@ int main(){
     if(numIdle == numServers && time >= clockStopTime){
       break;
     }
-
-    do
-    {
+    do{
       cout << '\n' << "Press ENTER to continue...";
     } while (cin.get() != '\n');
   }
